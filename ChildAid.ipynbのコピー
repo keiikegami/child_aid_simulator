@@ -1,0 +1,595 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Budget constraint simulator _child aid policy_ "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>1011_r</th>\n",
+       "      <th>11_r</th>\n",
+       "      <th>9400_3</th>\n",
+       "      <th>0005_3</th>\n",
+       "      <th>0506_3</th>\n",
+       "      <th>0610_3</th>\n",
+       "      <th>1011_3</th>\n",
+       "      <th>11_3</th>\n",
+       "      <th>9400_2</th>\n",
+       "      <th>...</th>\n",
+       "      <th>0710_2</th>\n",
+       "      <th>1011_2</th>\n",
+       "      <th>11_2</th>\n",
+       "      <th>9400_1</th>\n",
+       "      <th>0005_1</th>\n",
+       "      <th>0506_1</th>\n",
+       "      <th>0607_1</th>\n",
+       "      <th>0710_1</th>\n",
+       "      <th>1011_1</th>\n",
+       "      <th>11_1</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>...</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>...</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>...</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>0</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>0</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>10000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>0</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>10000</td>\n",
+       "      <td>0</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>5000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>10000</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 23 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   age  1011_r  11_r  9400_3  0005_3  0506_3  0610_3  1011_3   11_3  9400_2  \\\n",
+       "0    0   13000  5000   10000   10000   10000   10000   13000  15000    5000   \n",
+       "1    1   13000  5000   10000   10000   10000   10000   13000  15000    5000   \n",
+       "2    2   13000  5000   10000   10000   10000   10000   13000  15000    5000   \n",
+       "3    3   13000  5000       0   10000   10000   10000   13000  15000       0   \n",
+       "4    4   13000  5000       0   10000   10000   10000   13000  15000       0   \n",
+       "\n",
+       "   ...    0710_2  1011_2   11_2  9400_1  0005_1  0506_1  0607_1  0710_1  \\\n",
+       "0  ...     10000   13000  15000    5000    5000    5000    5000   10000   \n",
+       "1  ...     10000   13000  15000    5000    5000    5000    5000   10000   \n",
+       "2  ...     10000   13000  15000    5000    5000    5000    5000   10000   \n",
+       "3  ...      5000   13000  10000       0    5000    5000    5000    5000   \n",
+       "4  ...      5000   13000  10000       0    5000    5000    5000    5000   \n",
+       "\n",
+       "   1011_1   11_1  \n",
+       "0   13000  15000  \n",
+       "1   13000  15000  \n",
+       "2   13000  15000  \n",
+       "3   13000  10000  \n",
+       "4   13000  10000  \n",
+       "\n",
+       "[5 rows x 23 columns]"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "df = pd.read_csv('ChildAid_parameters.csv')\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>num_huyou</th>\n",
+       "      <th>income</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>622</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>660</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>698</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>736</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>774</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   num_huyou  income\n",
+       "0          0     622\n",
+       "1          1     660\n",
+       "2          2     698\n",
+       "3          3     736\n",
+       "4          4     774"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df2 = pd.read_csv('income_rest_parameters.csv')\n",
+    "df2.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>0</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>19940101</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>20000601</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>20040401</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>20060401</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>20070401</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "          0\n",
+       "0  19940101\n",
+       "1  20000601\n",
+       "2  20040401\n",
+       "3  20060401\n",
+       "4  20070401"
+      ]
+     },
+     "execution_count": 43,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df3 = pd.read_csv('stardt_date.csv', header = None)\n",
+    "df3.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "simulate"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# implement income restriction\n",
+    "\n",
+    "# shotoku-gaku (not shu-nyu-)\n",
+    "# The more one of father's income or mother's one\n",
+    "income = 800\n",
+    "\n",
+    "# koujo\n",
+    "# とりあえずずっと同じ控除が続いているとする\n",
+    "# 要素としては、一律、普通障害者、寡婦、勤労学生、特別障害者、寡婦特例\n",
+    "deduction_dummy = np.array([1,0,0,1,0,0])\n",
+    "deduction_element = np.array([8.0, 27.0, 27.0, 27.0, 40.0, 35.0])\n",
+    "deduction = np.dot(deduction_element, deduction_dummy)\n",
+    "\n",
+    "# calculate target_income\n",
+    "target_income = income - deduction\n",
+    "\n",
+    "# num_huyou\n",
+    "num_huyou = 2\n",
+    "\n",
+    "if target_income >= df2.values[num_huyou, 1]:\n",
+    "    rest_dum = 1\n",
+    "else:\n",
+    "    rest_dum = 0"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 上を関数化\n",
+    "# ある年の家計の属性から、翌年に児童手当受給資格を満たすかどうかを判断する関数\n",
+    "# 基本となるdeductionの要素に関するパラメーターはdefaultとして入れておく\n",
+    "# 0が所得制限にかからない、1がかかる\n",
+    "\n",
+    "# いまdfを引数にしているところは、年度を引数に取れるようにして、それに対応した所得制限表を取れるようにする。\n",
+    "# つまり、最終的には年度とその年の属性を入れると、よく年に受給資格を満たすか判断する関数を作る\n",
+    "def income_rest(df, income, num_huyou, deduction_dummy, deduction_element = np.array([8.0, 27.0, 27.0, 27.0, 40.0, 35.0])):\n",
+    "    \n",
+    "    target_income = income - np.dot(deduction_element, deduction_dummy)\n",
+    "    \n",
+    "    if target_income >= df.values[num_huyou, 1]:\n",
+    "        rest_dum = 1\n",
+    "    else:\n",
+    "        rest_dum = 0\n",
+    "        \n",
+    "    return rest_dum"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0"
+      ]
+     },
+     "execution_count": 37,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "income_rest(df2, 340, 2, np.array([1,0,0,1,0,0]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 上の関数の結果が0になるやつだけを対象に、ある年に児童手当をもらえる家族がいくらもらえるかを出す関数を作る\n",
+    "# 引数に取るのは、扶養している子供全員の生年月日のみ\n",
+    "# 各子供について、その年の1月から12月までいくらづつもらえるのかを計算して足す\n",
+    "\n",
+    "# まずある子供の生年月日と何年かを入れると、その年にそいつがもらえる額を計算するやつを作る\n",
+    "# birth dayは19950120みたいに入れる\n",
+    "\n",
+    "changedate = [i[0] for i in df3.values]\n",
+    "\n",
+    "def aid_for_onechild(year, birthday, nanshi):\n",
+    "    \n",
+    "    for i in [\"0101\", \"0201\", \"0301\", \"0401\", \"0501\", \"0601\", \"0701\", \"0801\", \"0901\", \"1001\", \"1101\", \"1201\"]:\n",
+    "        target_date = int(str(year) + i)\n",
+    "        age_month = (target_date - birthday)/10000\n",
+    "        period = len([1 for i in changedate if i < a])\n",
+    "        # periodは何回めの制度変更の後に対応しているかを表す。後はこれを使って条件分岐させれば良い。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "4"
+      ]
+     },
+     "execution_count": 41,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "year = 2000\n",
+    "month_day = \"0101\"\n",
+    "int((int(str(year) + month_day) - 19950120)/10000)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "changedate = [i[0] for i in df3.values]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 1, 1]"
+      ]
+     },
+     "execution_count": 52,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = 20050101\n",
+    "[1 for i in changedate if i < a]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[19940101,\n",
+       " 20000601,\n",
+       " 20040401,\n",
+       " 20060401,\n",
+       " 20070401,\n",
+       " 20100401,\n",
+       " 20111001,\n",
+       " 20120401]"
+      ]
+     },
+     "execution_count": 53,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "changedate"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
